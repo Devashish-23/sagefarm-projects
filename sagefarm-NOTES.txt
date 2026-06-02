@@ -1,0 +1,109 @@
+═══════════════════════════════════════════════════════════════
+  SAGEFARM RETIREMENT PLANNER — Developer Notes & Version Log
+  Divyartha Techedge Pvt. Ltd. | ARN–318120
+═══════════════════════════════════════════════════════════════
+
+
+── QUICK DEPLOYMENT CHECKLIST ─────────────────────────────────
+
+  [ ] Upload index.html, sagefarm.css, sagefarm.js to same folder
+  [ ] Verify Chart.js CDN loads (check browser console)
+  [ ] Test on mobile (responsive breakpoint at 480px)
+  [ ] Confirm tooltips open on click (not hover)
+  [ ] Test SWP with low withdrawal to trigger "Never runs out"
+  [ ] Test corpus ±1 Cr spinner buttons
+
+
+── FILE RESPONSIBILITIES ───────────────────────────────────────
+
+  index.html
+    · Page structure and layout markup
+    · Loads sagefarm.css, Chart.js CDN, sagefarm.js (in that order)
+    · Contains all inline HTML event handlers (oninput, onclick etc.)
+    · WordPress: paste body content into Custom HTML block
+
+  sagefarm.css
+    · ALL styles scoped under #sf-planner-root
+    · Uses CSS custom properties (--teal, --border, etc.) for theming
+    · Safe to paste into WordPress Additional CSS if preferred
+    · Responsive rules at bottom (@media max-width 480px)
+
+  sagefarm.js
+    · Wrapped in IIFE — no global namespace pollution
+    · Key functions exposed on window object:
+        window.sfCalcRet()       — recalculate retirement planner
+        window.sfCalcSWP()       — recalculate SWP
+        window.sfLiveComma()     — live Indian number formatting
+        window.sfSlideToField()  — sync range slider → input
+        window.sfAdjustCorpus()  — ±1 Cr corpus spinner
+    · Chart instances: retCh (retirement), swpCh (SWP)
+    · SF_R_ANNUAL = 0.22 (22% p.a. Sagefarm target — internal only)
+
+
+── KEY CONSTANTS (sagefarm.js) ─────────────────────────────────
+
+  SF_R_ANNUAL   = 0.22      Sagefarm target annual return (22%)
+  Corpus slider = ₹1 Cr to ₹500 Cr  (10000000 to 5000000000)
+  Years slider  = 1 to 50 years
+  SWP loop cap  = 60000 months (~5000 years) for depletion calc
+
+
+── CHART COLOR REFERENCE ───────────────────────────────────────
+
+  Retirement chart:
+    TEAL (corpus line)    = #e8a045  warm golden/amber
+    GRAY (invested line)  = #c8d8d5  muted slate
+    STEP_COLOR (step-up)  = #22c97a  bright green (solid line)
+
+  SWP chart:
+    Remaining corpus      = #00B896  original Sagefarm teal
+    Cumulative withdrawn  = #d4820a  amber (dashed)
+
+
+── TOOLTIP BEHAVIOUR ───────────────────────────────────────────
+
+  · Triggered by CLICK on the bold "i" icon (not hover)
+  · Auto-positions RIGHT of icon if space available, else LEFT
+  · Click outside or click same icon again to dismiss
+  · Styled: frosted glass, semi-transparent dark bg, blur backdrop
+
+
+── WORDPRESS / CPANEL NOTES ────────────────────────────────────
+
+  · All CSS scoped to #sf-planner-root — zero theme conflicts
+  · No jQuery dependency
+  · No WordPress hooks or shortcodes needed
+  · Chart.js and fonts load from public CDNs (cloudflare, google)
+  · If CDNs are blocked, download and host Chart.js locally:
+      https://cdn.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js
+      → upload to /wp-content/themes/your-theme/js/
+      → update src in index.html accordingly
+
+
+── VERSION HISTORY ─────────────────────────────────────────────
+
+  v1  Initial build — single HTML file
+  v2  Tooltip + corpus stepper added
+  v3  Transparent tooltips, click-based, left/right positioning
+  v4  Corpus ±1 Cr up/down spinner (like years field)
+      "Your Future is Secured with Sagefarm" in SWP
+  v5  500 Cr limit, 0-month professional labels
+      Monthly gain instead of monthly interest
+  v6  Cr label fix (10/20/120 Cr display correct)
+      Annual step-up % overlap fix
+      Bold i info icons
+      Chart: corpus = golden, step-up = green solid
+      SWP depletion loop raised to 60,000 months (~5000 yrs)
+  v7  SWP corpus graph restored to original teal + amber
+  v8  Split into index.html + sagefarm.css + sagefarm.js
+      Added README.md + NOTES.txt
+
+
+── CONTACT / OWNERSHIP ─────────────────────────────────────────
+
+  Sagefarm™
+  Divyartha Techedge Pvt. Ltd.
+  AMFI Registered Mutual Fund Distributor
+  ARN–318120
+
+═══════════════════════════════════════════════════════════════
